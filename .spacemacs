@@ -347,6 +347,32 @@ you should place your code here."
   (bind-key (kbd "M-ä") "}")
   (bind-key (kbd "C-x C-b") 'ibuffer)
 
+  ;; Backup Files:
+  (load "~/.elisp-files/backup.el")
+
+  ;; Timeclock Erweiterung
+  (bind-key (kbd "C-x t i") 'timeclock-in)
+  (bind-key (kbd "C-x t o") 'timeclock-out)
+  (bind-key (kbd "C-x t c") 'timeclock-change)
+
+  ;; Für mehr Timeclock-Funktionalität
+  (load "~/.elisp-files/kaan-timeclock.el")
+  (bind-key (kbd "C-x t s") 'timeclock-sum-all-hours)
+  (bind-key (kbd "C-x t t") 'timeclock-hours-worked-today)
+  (bind-key (kbd "C-x t e") 'timeclock-hours-to-days-end)
+  (bind-key (kbd "C-x t u") 'timeclock-overtime)
+  (bind-key (kbd "C-x t f") 'timeclock-open-timelog-file)
+
+  ;; Um an Timeclock einen Kommentar zu hängen
+  (load ".elisp-files/mikes-timeclock.el")
+  (global-set-key (kbd "C-x t d") 'timeclock-provide-description)
+
+  ;; fast geschickter, eingebaut windmove
+  (bind-key (kbd "C-c <left>")  'windmove-left)
+  (bind-key (kbd "C-c <right>") 'windmove-right)
+  (bind-key (kbd "C-c <up>")    'windmove-up)
+  (bind-key (kbd "C-c <down>")  'windmove-down)
+
   )
 
 ;; do not write anything past this comment. This is where Emacs will
