@@ -31,6 +31,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     sql
      markdown
      javascript
      clojure
@@ -329,6 +330,9 @@ you should place your code here."
 
   ;; Auto-Completion
   (global-company-mode)
+
+  ;; Disable Undo-tree-mode
+  (global-undo-tree-mode nil)
   ;; Um markierte Region zu loeschen bei Tastatureingabe
   (delete-selection-mode 1)
   ;; Paredit automatisch laden
@@ -337,10 +341,12 @@ you should place your code here."
   (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 
   ;; Key Bindings
+  (define-key undo-tree-map [remap undo] nil)
   (bind-key (kbd "C-x C-y") 'yas-expand)
   (unbind-key (kbd "C-z") evil-emacs-state-map)
   (bind-key (kbd "C-z") 'undo)
   (bind-key (kbd "C-#") "@")
+  (bind-key (kbd "C-ü") "~")
   (bind-key (kbd "ö") "[")
   (bind-key (kbd "M-ö") "{")
   (bind-key (kbd "ä") "]")
@@ -348,7 +354,7 @@ you should place your code here."
   (bind-key (kbd "C-x C-b") 'ibuffer)
 
   ;; Backup Files:
-  (load "~/.elisp-files/backup.el")
+  (load-file "~/.elisp-files/backup.el")
 
   ;; Timeclock Erweiterung
   (bind-key (kbd "C-x t i") 'timeclock-in)
@@ -356,7 +362,7 @@ you should place your code here."
   (bind-key (kbd "C-x t c") 'timeclock-change)
 
   ;; Für mehr Timeclock-Funktionalität
-  (load "~/.elisp-files/kaan-timeclock.el")
+  (load-file "~/.elisp-files/kaan-timeclock.el")
   (bind-key (kbd "C-x t s") 'timeclock-sum-all-hours)
   (bind-key (kbd "C-x t t") 'timeclock-hours-worked-today)
   (bind-key (kbd "C-x t e") 'timeclock-hours-to-days-end)
@@ -364,7 +370,7 @@ you should place your code here."
   (bind-key (kbd "C-x t f") 'timeclock-open-timelog-file)
 
   ;; Um an Timeclock einen Kommentar zu hängen
-  (load ".elisp-files/mikes-timeclock.el")
+  (load-file ".elisp-files/mikes-timeclock.el")
   (global-set-key (kbd "C-x t d") 'timeclock-provide-description)
 
   ;; fast geschickter, eingebaut windmove
@@ -384,7 +390,7 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (mmm-mode markdown-toc markdown-mode gh-md xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern dash-functional tern coffee-mode clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode web-mode tagedit smeargle slim-mode scss-mode sass-mode pug-mode orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-css-scss helm-company helm-c-yasnippet haml-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct evil-magit magit magit-popup git-commit ghub treepy graphql with-editor emmet-mode csv-mode company-web web-completion-data company-statistics company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+    (sql-indent mmm-mode markdown-toc markdown-mode gh-md xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern dash-functional tern coffee-mode clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode web-mode tagedit smeargle slim-mode scss-mode sass-mode pug-mode orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-css-scss helm-company helm-c-yasnippet haml-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct evil-magit magit magit-popup git-commit ghub treepy graphql with-editor emmet-mode csv-mode company-web web-completion-data company-statistics company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
  '(safe-local-variable-values
    (quote
     ((cider-cljs-lein-repl . "(do (start-cljs-repl) (cljs-repl))")
