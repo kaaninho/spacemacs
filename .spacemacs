@@ -340,6 +340,9 @@ you should place your code here."
   (add-hook 'clojurescript-mode-hook 'paredit-mode)
   (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 
+  ;; So geht das Scrolling bei langen Zeilen hoffentlich schneller
+  (setq-default bidi-display-reordering nil)
+
   ;; Key Bindings
   (define-key undo-tree-map [remap undo] nil)
   (bind-key (kbd "C-x C-y") 'yas-expand)
@@ -352,6 +355,15 @@ you should place your code here."
   (bind-key (kbd "ä") "]")
   (bind-key (kbd "M-ä") "}")
   (bind-key (kbd "C-x C-b") 'ibuffer)
+  (defun insert-backslash ()
+    "insert backslash"
+    (interactive)
+    (insert "\\"))
+  (bind-key (kbd "M-+") 'insert-backslash)
+  (bind-key (kbd "M-*") "|")
+  (unbind-key (kbd "C-i") global-map)
+  (bind-key (kbd "C-i") 'join-line)
+
 
   ;; Backup Files:
   (load-file "~/.elisp-files/backup.el")
@@ -370,16 +382,14 @@ you should place your code here."
   (bind-key (kbd "C-x t f") 'timeclock-open-timelog-file)
 
   ;; Um an Timeclock einen Kommentar zu hängen
-  (load-file ".elisp-files/mikes-timeclock.el")
+  (load-file "~/.elisp-files/mikes-timeclock.el")
   (global-set-key (kbd "C-x t d") 'timeclock-provide-description)
 
   ;; fast geschickter, eingebaut windmove
   (bind-key (kbd "C-c <left>")  'windmove-left)
   (bind-key (kbd "C-c <right>") 'windmove-right)
   (bind-key (kbd "C-c <up>")    'windmove-up)
-  (bind-key (kbd "C-c <down>")  'windmove-down)
-
-  )
+  (bind-key (kbd "C-c <down>")  'windmove-down))
 
 ;; do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
