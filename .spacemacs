@@ -342,6 +342,7 @@ you should place your code here."
 
   ;; So geht das Scrolling bei langen Zeilen hoffentlich schneller
   (setq-default bidi-display-reordering nil)
+  (setq fast-but-imprecise-scrolling t)
 
   ;; Key Bindings
   (define-key undo-tree-map [remap undo] nil)
@@ -361,8 +362,11 @@ you should place your code here."
     (insert "\\"))
   (bind-key (kbd "M-+") 'insert-backslash)
   (bind-key (kbd "M-*") "|")
-  (unbind-key (kbd "C-i") global-map)
-  (bind-key (kbd "C-i") 'join-line)
+  (bind-key (kbd "C-ö") 'join-line)
+
+  ;; Page Up and Down
+  (bind-key (kbd "M-p") 'scroll-down-command)
+  (bind-key (kbd "M-n") 'scroll-up-command)
 
 
   ;; Backup Files:
