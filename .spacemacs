@@ -350,7 +350,7 @@ you should place your code here."
   (unbind-key (kbd "C-z") evil-emacs-state-map)
   (bind-key (kbd "C-z") 'undo)
   (bind-key (kbd "C-#") "@")
-  (bind-key (kbd "C-ü") "~")
+  (bind-key (kbd "C-+") "~")
   (bind-key (kbd "ö") "[")
   (bind-key (kbd "M-ö") "{")
   (bind-key (kbd "ä") "]")
