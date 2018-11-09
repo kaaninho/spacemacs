@@ -54,8 +54,21 @@ values."
      ;; better-defaults
      emacs-lisp
      git
-     ;; markdown
-     ;; org
+     (org :variables
+          org-enable-reveal-js-support t
+          org-hide-emphasis-markers t
+          org-bullets-mode t
+          org-bullets-bullet-list '("◉" "◎" "⚫" "○" "►" "◇")
+          org-emphasis-alist '(("*" bold)
+                               ("/" italic)
+                               ("_" underline)
+                               ("=" (:foreground "yellow" :background "black"))
+                               ("!" italic)
+                               ("~" org-verbatim verbatim)
+                               ("+"
+                                (:strike-through t))
+                               ))
+
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
