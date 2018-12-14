@@ -377,6 +377,18 @@ you should place your code here."
   (bind-key (kbd "M-*") "|")
   (bind-key (kbd "C-ö") 'join-line)
 
+  ;; Umlaute
+  (defun insert-oe ()
+    "insert backslash"
+    (interactive)
+    (insert "ö"))
+  (defun insert-ae ()
+    "insert backslash"
+    (interactive)
+    (insert "ä"))
+  (bind-key (kbd "C-M-ö") 'insert-oe)
+  (bind-key (kbd "C-M-ä") 'insert-ae)
+
   ;; Page Up and Down
   (bind-key (kbd "M-p") 'scroll-down-command)
   (bind-key (kbd "M-n") 'scroll-up-command)
