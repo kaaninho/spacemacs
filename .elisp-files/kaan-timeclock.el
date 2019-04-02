@@ -1,26 +1,38 @@
 (load "timeclock.el")
+(load "dash.el") ; for (-take)
 
 (defvar work-hours-per-day 6.4)
 
 (defun timeclock-sum-all-hours ()
   (interactive)
   (let ((days (timeclock-day-alist (timeclock-log-data)))
-	(total 0.0))
+  (total 0.0))
     (while days
       (setq total (+ total (timeclock-day-length (cdar days)))
-	    days (cdr days)))
+      days (cdr days)))
     (message (timeclock-seconds-to-string total))))
 
 (defun timeclock-overtime ()
   (interactive)
   (let* ((days (cdr (timeclock-day-alist (timeclock-log-data))))
-	 (worked-days-number (length days))
-	 (total 0.0))
+   (worked-days-number (length days))
+   (total 0.0))
     (while days
       (setq total (+ total (timeclock-day-length (cdar days)))
-	    days (cdr days)))
+      days (cdr days)))
     (message (timeclock-seconds-to-string
-	      (- total (* 3600 work-hours-per-day worked-days-number))))))
+        (- total (* 3600 work-hours-per-day worked-days-number))))))
+
+(defun timeclock-last-x-days-overtime (number-of-days)
+  (interactive "nNumber of days: ")
+  (let* ((days (-take number-of-days (cdr (timeclock-day-alist (timeclock-log-data)))))
+         (worked-days-number (length days))
+         (total 0.0))
+    (while days
+      (setq total (+ total (timeclock-day-length (cdar days)))
+            days (cdr days)))
+    (message (timeclock-seconds-to-string
+              (- total (* 3600 work-hours-per-day worked-days-number))))))
 
 (defun timeclock-hours-worked-today ()
   (interactive)
@@ -36,6 +48,7 @@
   (interactive)
   (find-file "~/.emacs.d/timelog")
   (goto-char (point-max)))
+
 
 
 ;;; For printing out elements
