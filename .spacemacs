@@ -411,6 +411,10 @@ you should place your code here."
   ;; Backup Files:
   (load-file "~/.elisp-files/backup.el")
 
+  ;; Protokoll-Template
+  (load-file "~/.elisp-files/protokoll-template.el")
+  (bind-key (kbd "C-x p") 'protocol-template)
+
   ;; Timeclock Erweiterung
   (bind-key (kbd "C-x t i") 'timeclock-in)
   (bind-key (kbd "C-x t o") 'timeclock-out)

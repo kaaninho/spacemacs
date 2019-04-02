@@ -1,0 +1,8 @@
+(defun protocol-template ()
+  (interactive)
+  (switch-to-buffer "protocol-template.org")
+  (org-mode)
+  (let ((title (read-string "Protokoll Überschrift: ")))
+    (insert "#+title: " title "\n")
+    (insert "#+date: " (format-time-string "%Y-%m-%d") "\n")
+    (insert "#+author: " user-full-name "\n\n")))
