@@ -353,6 +353,9 @@ you should place your code here."
 
   (ido-mode -1)
 
+  ;; Automatic highlight symbol
+  (spacemacs/toggle-automatic-symbol-highlight)
+  (ahs-set-idle-interval 0.5)
   ;; Auto-Completion
   (global-company-mode)
 
