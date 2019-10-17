@@ -51,6 +51,9 @@ values."
      csv
      html
 
+     (mu4e :variables
+           mu4e-installation-path "/usr/local/share/emacs/site-lisp/mu/mu4e/")
+
      (helm :variables
            helm-M-x-fuzzy-match t
            helm-mode-fuzzy-match t)
@@ -89,14 +92,17 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
    '(
-     align-cljlet)
+     align-cljlet
+     langtool
+     mu4e-alert)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages
    '(
      smartparens
-     rainbow-delimiters)
+     rainbow-delimiters
+     org-projectile)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -452,6 +458,53 @@ you should place your code here."
   (setq org-capture-templates
         `(("t" "Todo" entry (file+headline "todos.org" "Todo")
            "* TODO %?\n %i %a" :prepend t)))
+  ;;; Mail mu4e --------------
+  (setq mu4e-sent-folder "/activemail/Sent Messages"
+        ;; mu4e-sent-messages-behavior 'delete ;; Unsure how this should be configured
+        mu4e-drafts-folder "/activemail/drafts"
+        user-mail-address "kaan.sahin@active-group.de"
+        smtpmail-default-smtp-server "smtp.active-group.de"
+        smtpmail-smtp-server "smtp.active-group.de"
+        smtpmail-auth-credentials (expand-file-name "~/.authinfo.gpg")
+        smtpmail-smtp-service 587)
+  (setq mu4e-update-interval 180
+        mu4e-view-show-images t
+        mu4e-view-show-addresses t)
+
+  ;; Bookmars
+  (setq mu4e-bookmarks
+        `(("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
+          ("date:today..now" "Today's messages" ?t)
+          ("date:7d..now" "Last 7 days" ?w)
+          ("maildir:/activemail/INBOX" "Active Group" ?a)))
+
+  (with-eval-after-load 'mu4e-alert
+    (mu4e-alert-set-default-style 'notifications))
+
+  (setq mu4e-enable-mode-line t)
+  (setq mu4e-enable-notifications t)
+
+  (defun gjstein-refresh-mu4e-alert-mode-line ()
+    (interactive)
+    (mu4e-alert-enable-notifications))
+  (run-with-timer 0 60 'gjstein-refresh-mu4e-alert-mode-line)
+
+  (defun fetch-mail ()
+    (interactive)
+    (shell-command "/Users/kaan/bin/bin/offlineimap-cron"))
+  ;;(bind-key (kbd ) 'fetch-mail)
+  ;;; ----------------------
+
+
+  (with-eval-after-load 'org
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((clojure . t)
+       (emacs-lisp . t)
+       (haskell . t)
+       (python . t)
+       ))
+    )
 
   )
 ;; do not write anything past this comment. This is where Emacs will
