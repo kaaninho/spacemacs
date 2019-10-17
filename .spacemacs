@@ -451,6 +451,11 @@ you should place your code here."
   (bind-key (kbd "C-c <up>")    'windmove-up)
   (bind-key (kbd "C-c <down>")  'windmove-down)
 
+  ;; Rechtschreibkorrektur mit Langtool https://github.com/mhayashi1120/Emacs-langtool
+  (setq langtool-language-tool-jar "~/.langtool/languagetool-commandline.jar")
+  (require 'langtool)
+  (bind-key (kbd "C-x l") 'langtool-check)
+  (bind-key (kbd "C-x j") 'langtool-check-done)
 
   ;; open todo file
   (bind-key (kbd "C-c f") (lambda () (interactive) (find-file "~/org/todos.org")))
