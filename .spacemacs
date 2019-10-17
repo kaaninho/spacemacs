@@ -360,6 +360,11 @@ you should place your code here."
   (ido-mode -1)
 
   ;; Automatic highlight symbol
+  ;;; DESKTOP SAVE MODE
+  ;; Um den Bufferzustand beim beenden von Emacs beizubehalten
+  (desktop-save-mode)
+  ;; (desktop-read)  ausführen, um den Inahlt beim Neustart angezeigt zu bekommen
+
   (spacemacs/toggle-automatic-symbol-highlight)
   (ahs-set-idle-interval 0.5)
   ;; Auto-Completion
