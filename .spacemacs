@@ -31,6 +31,11 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     scala
+     ;; scala-lsp
+     common-lisp
+     php
+     haskell
      elixir
      erlang
      ocaml
@@ -42,12 +47,6 @@ values."
      javascript
      clojure
      clojure-lint
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-
      csv
      html
 
@@ -61,7 +60,7 @@ values."
                       auto-completion-return-key-behavior 'complete
                       auto-completion-tab-key-behavior 'cycle)
 
-     ;; better-defaults
+
      emacs-lisp
      git
      (org :variables
@@ -69,18 +68,20 @@ values."
           org-enable-reveal-js-support t
           org-hide-emphasis-markers nil
           org-bullets-mode t
-          org-bullets-bullet-list '("◉" "◎" "⚫" "○" "►" "◇")
+          org-bullets-bullet-list '("⚫" "◉" "◎" "○" "►" "◇")
           org-emphasis-alist '(("*" bold)
                                ("/" italic)
                                ("_" underline)
-                               ("=" (:foreground "grey" :background "black"))
+                               ("=" (:foreground "#EFCA08" :background "#555555"))
                                ("~" org-verbatim verbatim)
-                               ("+" (:strike-through t))))
+                               ("+" (:strike-through t)))
+)
 
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
-     ;; spell-checking
+     ;; (spell-checking :variables spell-checking-enable-auto-dictionary t
+     ;;                 enable-flyspell-auto-completion t)
      ;; syntax-checking
      ;; version-control
 
@@ -171,16 +172,13 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(monokai
-                         default
-                         ;;spacemacs-dark
-                         ;;spacemacs-light
-                         )
+                         leuven)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Monaco"
-                               :size 12
+   dotspacemacs-default-font '("Hack" ;; "DejaVu Sans Mono"
+                               :size 15
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -306,7 +304,7 @@ values."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers 't
+   dotspacemacs-line-numbers nil
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -357,9 +355,7 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
-  (ido-mode -1)
 
-  ;; Automatic highlight symbol
   ;;; SCALA LSP
   ;; auto vervollständigung oder ähnliches wegen scala
   ;; (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
@@ -376,15 +372,29 @@ you should place your code here."
   (desktop-save-mode)
   ;; (desktop-read)  ausführen, um den Inahlt beim Neustart angezeigt zu bekommen
 
+
+  ;;; ORG EASY STRUCTURE TEMPLATE
+  ;; To use org easy structure templates
+  ;; (also `<s' für Code-Beispiel)
+  (require 'org-tempo)
+
+    ;; Fix, because currently broken, see: https://github.com/syl20bnr/spacemacs/issues/11798
+  (setq org-structure-template-alist (cons '("n". "#+BEGIN_NOTES ? #+END_NOTES") (cdr org-structure-template-alist)))
+
+
+  ;;; Automatic highlight symbol
   (spacemacs/toggle-automatic-symbol-highlight)
   (ahs-set-idle-interval 0.5)
+
   ;; Auto-Completion
   (global-company-mode)
 
   ;; Disable Undo-tree-mode
   (global-undo-tree-mode nil)
+
   ;; Um markierte Region zu loeschen bei Tastatureingabe
   (delete-selection-mode 1)
+
   ;; Paredit automatisch laden
   (add-hook 'clojure-mode-hook 'paredit-mode)
   (add-hook 'clojurescript-mode-hook 'paredit-mode)
@@ -394,7 +404,35 @@ you should place your code here."
   (setq-default bidi-display-reordering nil)
   (setq fast-but-imprecise-scrolling t)
 
-  ;; Key Bindings
+  ;;; ORG capture TODOS etc
+  ;; open Todo file
+  (bind-key (kbd "C-c f") (lambda () (interactive) (find-file "~/org/todos.org")))
+
+  ;; Org-capture-templates
+  (setq org-capture-templates
+        `(("t" "Todo mit Datei-Link" entry (file+headline "todos.org" "Todo")
+           "* TODO %?\n %i %a" :prepend t)
+          ("z" "Todo" entry (file+headline "todos.org" "Todo")
+           "* TODO %?\n %i" :prepend t)))
+
+  (setq org-agenda-files '("~/org"))
+  (setq org-default-notes-file "todos.org")
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 1)))
+
+  ;; Dadurch wird nach einem refile die Datei direkt gespeichert
+  (advice-add 'org-refile :after 'org-save-all-org-buffers)
+
+  ;; Backup Files:
+  (load-file "~/.elisp-files/backup.el")
+
+  ;; Protokoll-Template
+  (load-file "~/.elisp-files/protokoll-template.el")
+  (bind-key (kbd "C-x p") 'protocol-template)
+
+  ;;; Key Bindings
+  ;; Other window
+  (global-set-key [C-tab] 'other-window)
+  (global-set-key [C-S-tab] (lambda () (interactive) (other-window -1)))
   (define-key undo-tree-map [remap undo] nil)
   (bind-key (kbd "C-x C-y") 'yas-expand)
   (unbind-key (kbd "C-z") evil-emacs-state-map)
@@ -414,18 +452,13 @@ you should place your code here."
   (bind-key (kbd "M-*") "|")
   (bind-key (kbd "C-ö") 'join-line)
 
-  ;; Other window
-  (global-set-key [C-tab] 'other-window)
-  (global-set-key [C-S-tab] (lambda () (interactive) (other-window -1)))
-
-
   ;; Umlaute
   (defun insert-oe ()
-    "insert backslash"
+    "insert ö"
     (interactive)
     (insert "ö"))
   (defun insert-ae ()
-    "insert backslash"
+    "insert ä"
     (interactive)
     (insert "ä"))
   (bind-key (kbd "C-M-ö") 'insert-oe)
@@ -434,14 +467,6 @@ you should place your code here."
   ;; Page Up and Down
   (bind-key (kbd "M-p") 'scroll-down-command)
   (bind-key (kbd "M-n") 'scroll-up-command)
-
-
-  ;; Backup Files:
-  (load-file "~/.elisp-files/backup.el")
-
-  ;; Protokoll-Template
-  (load-file "~/.elisp-files/protokoll-template.el")
-  (bind-key (kbd "C-x p") 'protocol-template)
 
   ;; Timeclock Erweiterung
   (bind-key (kbd "C-x t i") 'timeclock-in)
@@ -467,18 +492,16 @@ you should place your code here."
   (bind-key (kbd "C-c <up>")    'windmove-up)
   (bind-key (kbd "C-c <down>")  'windmove-down)
 
+  ;; For spelling use aspell instead of ispell
+  (setq ispell-program-name "aspell")
+
+
   ;; Rechtschreibkorrektur mit Langtool https://github.com/mhayashi1120/Emacs-langtool
   (setq langtool-language-tool-jar "~/.langtool/languagetool-commandline.jar")
   (require 'langtool)
   (bind-key (kbd "C-x l") 'langtool-check)
   (bind-key (kbd "C-x j") 'langtool-check-done)
 
-  ;; open todo file
-  (bind-key (kbd "C-c f") (lambda () (interactive) (find-file "~/org/todos.org")))
-  ;; Org-capture-templates
-  (setq org-capture-templates
-        `(("t" "Todo" entry (file+headline "todos.org" "Todo")
-           "* TODO %?\n %i %a" :prepend t)))
   ;;; Mail mu4e --------------
   (setq mu4e-sent-folder "/activemail/Sent Messages"
         ;; mu4e-sent-messages-behavior 'delete ;; Unsure how this should be configured
@@ -535,13 +558,16 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
  '(custom-safe-themes
    (quote
-    ("11e57648ab04915568e558b77541d0e94e69d09c9c54c06075938b6abc0189d8" "bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default)))
+    ("e6ccd0cc810aa6458391e95e4874942875252cd0342efd5a193de92bfbb6416b" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "11e57648ab04915568e558b77541d0e94e69d09c9c54c06075938b6abc0189d8" "bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default)))
  '(evil-want-Y-yank-to-eol nil)
+ '(line-number-mode nil)
  '(package-selected-packages
    (quote
-    (ob-elixir flycheck-mix flycheck-credo alchemist elixir-mode erlang utop tuareg caml ocp-indent merlin racket-mode faceup yaml-mode company-auctex auctex flycheck-joker flycheck zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme exotica-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme monokai-theme-theme base16-theme monokai-theme align-cljlet ox-reveal sql-indent mmm-mode markdown-toc markdown-mode gh-md xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern dash-functional tern coffee-mode clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode web-mode tagedit smeargle slim-mode scss-mode sass-mode pug-mode orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-css-scss helm-company helm-c-yasnippet haml-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct evil-magit magit magit-popup git-commit ghub treepy graphql with-editor emmet-mode csv-mode company-web web-completion-data company-statistics company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+    (mu4e-maildirs-extension mu4e-alert langtool parseedn parseclj a lsp-scala lsp-mode ht keyfreq noflet ensime sbt-mode scala-mode google-this engine-mode slime-company slime common-lisp-snippets phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode flyspell-popup lv auctex-latexmk transient intero hlint-refactor hindent helm-hoogle haskell-snippets company-ghci company-ghc ghc haskell-mode company-cabal cmm-mode ob-elixir flycheck-mix flycheck-credo alchemist elixir-mode erlang utop tuareg caml ocp-indent merlin racket-mode faceup yaml-mode company-auctex auctex flycheck-joker flycheck zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme exotica-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme monokai-theme-theme base16-theme monokai-theme align-cljlet ox-reveal sql-indent mmm-mode markdown-toc markdown-mode gh-md xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern dash-functional tern coffee-mode clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode web-mode tagedit smeargle slim-mode scss-mode sass-mode pug-mode orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-css-scss helm-company helm-c-yasnippet haml-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct evil-magit magit magit-popup git-commit ghub treepy graphql with-editor emmet-mode csv-mode company-web web-completion-data company-statistics company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
  '(safe-local-variable-values
    (quote
     ((cider-cljs-default-repl . shadow)
@@ -549,13 +575,11 @@ you should place your code here."
      (cider-ns-refresh-before-fn . "integrant.repl/suspend")
      (cider-cljs-lein-repl . "(do (start-cljs-repl) (cljs-repl))")
      (cider-refresh-after-fn . "integrant.repl/resume")
-     (cider-refresh-before-fn . "integrant.repl/suspend")))))
+     (cider-refresh-before-fn . "integrant.repl/suspend"))))
+ '(send-mail-function (quote smtpmail-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-
- ;; Auskommentiert, da sonst andere Themes überschrieben werden. Keine Ahnung, wo das herkam
- ;; '(default ((((class color) (min-colors 257)) (:foreground "#F8F8F2" :background "#272822")) (((class color) (min-colors 89)) (:foreground "#F5F5F5" :background "#1B1E1C"))))
- )
+ '(default ((((class color) (min-colors 257)) (:foreground "#F8F8F2" :background "#272822")) (((class color) (min-colors 89)) (:foreground "#F5F5F5" :background "#1B1E1C")))))
