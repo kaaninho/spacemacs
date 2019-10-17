@@ -360,6 +360,17 @@ you should place your code here."
   (ido-mode -1)
 
   ;; Automatic highlight symbol
+  ;;; SCALA LSP
+  ;; auto vervollständigung oder ähnliches wegen scala
+  ;; (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
+
+  ;; Hack to make sure 'company-lsp is only pushed after company package is loaded
+  ;; (use-package company
+  ;;   :config
+  ;;   (push 'company-lsp company-backends))
+
+  ;; (setq company-lsp-async t)
+
   ;;; DESKTOP SAVE MODE
   ;; Um den Bufferzustand beim beenden von Emacs beizubehalten
   (desktop-save-mode)
