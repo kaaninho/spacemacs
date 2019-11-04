@@ -505,41 +505,42 @@ you should place your code here."
   ;;; Mail mu4e --------------
   (setq mu4e-sent-folder "/activemail/Sent Messages"
         ;; mu4e-sent-messages-behavior 'delete ;; Unsure how this should be configured
+        mu4e-trash-folder "/activemail/Trash"
         mu4e-drafts-folder "/activemail/drafts"
         user-mail-address "kaan.sahin@active-group.de"
         smtpmail-default-smtp-server "smtp.active-group.de"
         smtpmail-smtp-server "smtp.active-group.de"
         smtpmail-auth-credentials (expand-file-name "~/.authinfo.gpg")
-        smtpmail-smtp-service 587)
-  (setq mu4e-update-interval 180
+        smtpmail-smtp-service 587
+        mu4e-compose-signature
+        "\nKaan Sahin\nActive Group GmbH\nkaan.sahin@active-group.de\n+49 7071 70896 80\n\nHechinger Straße 12/1, 72072 Tübingen\nRegistergericht: Amtsgericht Stuttgart, HRB 224404\nGeschäftsführer: Dr. Michael Sperber\n"
+        smtpmail-smtp-user "sahin"
+        smtpmail-local-domain "active-group.de"
+        ;; um gesendete buffer zu killen
+        message-kill-buffer-on-exit t)
+
+  (setq mu4e-get-mail-command "offlineimap -o -q"
+        mu4e-update-interval 50
         mu4e-view-show-images t
         mu4e-view-show-addresses t)
 
-  ;; Bookmars
+  ;; Notifications
+  (setq mu4e-enable-mode-line t)
+  (setq mu4e-enable-notifications t)
+
+  (with-eval-after-load 'mu4e-alert
+    (mu4e-alert-set-default-style 'notifier))
+
+  ;; Bookmarks
   (setq mu4e-bookmarks
         `(("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
           ("date:today..now" "Today's messages" ?t)
           ("date:7d..now" "Last 7 days" ?w)
           ("maildir:/activemail/INBOX" "Active Group" ?a)))
-
-  (with-eval-after-load 'mu4e-alert
-    (mu4e-alert-set-default-style 'notifications))
-
-  (setq mu4e-enable-mode-line t)
-  (setq mu4e-enable-notifications t)
-
-  (defun gjstein-refresh-mu4e-alert-mode-line ()
-    (interactive)
-    (mu4e-alert-enable-notifications))
-  (run-with-timer 0 60 'gjstein-refresh-mu4e-alert-mode-line)
-
-  (defun fetch-mail ()
-    (interactive)
-    (shell-command "/Users/kaan/bin/bin/offlineimap-cron"))
-  ;;(bind-key (kbd ) 'fetch-mail)
   ;;; ----------------------
 
 
+  ;;; org-babel language support
   (with-eval-after-load 'org
     (org-babel-do-load-languages
      'org-babel-load-languages
@@ -547,7 +548,7 @@ you should place your code here."
        (emacs-lisp . t)
        (haskell . t)
        (python . t)
-       ))
+       (latex . t)))
     )
 
   )
