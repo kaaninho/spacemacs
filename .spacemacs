@@ -539,8 +539,14 @@ you should place your code here."
           ("date:today..now" "Today's messages" ?t)
           ("date:7d..now" "Last 7 days" ?w)
           ("maildir:/activemail/INBOX" "Active Group" ?a)))
-  ;;; ----------------------
 
+  (eval-after-load 'mu4e
+    '(define-key mu4e-main-mode-map (kbd "Q") 'previous-buffer))
+
+  ;; start mu4e
+  (mu4e t)
+
+  ;;; ----------------------
 
   ;;; org-babel language support
   (with-eval-after-load 'org
