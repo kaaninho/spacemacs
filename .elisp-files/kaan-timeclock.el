@@ -1,4 +1,4 @@
-(load "timeclock.el")
+(load "timeclock")
 (load "dash.el") ; for (-take)
 
 (defvar work-hours-per-day 6.4)
