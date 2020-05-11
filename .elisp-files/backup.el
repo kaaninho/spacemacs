@@ -28,4 +28,4 @@
   (let ((buffer-backed-up nil))
     (backup-buffer)))
 
-  (add-hook 'before-save-hook  'force-backup-of-buffer)
+(add-hook 'before-save-hook  'force-backup-of-buffer)
