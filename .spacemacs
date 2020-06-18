@@ -763,6 +763,10 @@ you should place your code here."
   (custom-set-faces
    '(region ((t (:inherit highlight :background "#000000")))))
 
+
+  ;; damit man Dateien über SSH öffnen kann
+  (setq tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*")
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
