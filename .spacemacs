@@ -514,10 +514,16 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;; falls which-key mal langsam sein sollte, einfach
+  ;; (setq which-key-replacement-alist nil)
+  ;; ausführen.
+
   ;; FIX for helm fuzzy
   ;; Only `helm-flex' in this list breaks NS auto-complete in clojure
   (setq completion-styles '(basic partial-completion emacs22 helm-flex))
 
+  ;; Das hier setzen, falls command-history mal Duplikate zeigt
+  ;; (setq extended-command-history nil)
 
   ;;; SCALA LSP
   ;; auto vervollständigung oder ähnliches wegen scala
