@@ -590,9 +590,9 @@ you should place your code here."
 
   ;; Org-capture-templates
   (setq org-capture-templates
-        `(("t" "Todo mit Datei-Link" entry (file+headline "todos.org" "Todo")
+        `(("t" "Todo mit Datei-Link" entry (file+headline "todos.org" "Inbox")
            "* TODO %?\n %i %a" :prepend t)
-          ("z" "Todo" entry (file+headline "todos.org" "Todo")
+          ("z" "Todo" entry (file+headline "todos.org" "Inbox")
            "* TODO %?\n %i" :prepend t)))
 
   (setq org-agenda-files '("~/org"))
