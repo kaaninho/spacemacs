@@ -37,8 +37,12 @@ This function should only modify configuration layer settings."
      common-lisp
      php
      haskell
-     elixir
-     erlang
+
+     (elixir :variables
+             elixir-backend 'lsp
+             elixir-ls-path "~/.elixir-lsp/release")
+
+     ;; erlang
      ;; ocaml
      racket
      latex
@@ -83,8 +87,7 @@ This function should only modify configuration layer settings."
                                ("_" underline)
                                ("=" (:foreground "#EFCA08" :background "#555555"))
                                ("~" org-verbatim verbatim)
-                               ("+" (:strike-through t)))
-)
+                               ("+" (:strike-through t))))
 
      (shell :variables
             shell-default-height 30
@@ -108,6 +111,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages
    '(
      align-cljlet
+     exunit
      langtool
      mu4e-alert)
    ;; A list of packages that cannot be updated.
@@ -116,6 +120,7 @@ This function should only modify configuration layer settings."
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages
    '(
+     alchemist
      smartparens
      rainbow-delimiters
      org-projectile)
@@ -750,7 +755,7 @@ you should place your code here."
        (latex . t)
        (plantuml . t)))
     )
-
+  
   ;;; PlantUML
   (setq org-plantuml-jar-path
         (expand-file-name "~/.nix-profile/lib/plantuml.jar"))
@@ -758,6 +763,26 @@ you should place your code here."
   (setq plantuml-jar-path org-plantuml-jar-path
         plantuml-default-exec-mode 'jar
         plantuml-output-type "txt")
+
+
+  ;; Elixir settings
+  (add-hook 'elixir-mode-hook
+            (lambda ()
+              (add-hook 'before-save-hook #'lsp-format-buffer nil t)))
+
+  ;; (with-eval-after-load 'elixir-mode
+  ;;   (spacemacs/declare-prefix-for-mode 'elixir-mode
+  ;;     "mt" "tests" "testing related functionality")
+  ;;   (spacemacs/set-leader-keys-for-major-mode 'elixir-mode
+  ;;     "tb" 'exunit-verify-all
+  ;;     "ta" 'exunit-verify
+  ;;     "tk" 'exunit-rerun
+  ;;     "tt" 'exunit-verify-single
+
+  ;;     "d" 'lsp-ui-doc-mode))
+
+
+
 
   ;; set region highlighting more visible (black)
   (custom-set-faces
