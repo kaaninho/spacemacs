@@ -5,7 +5,7 @@
          (buffer-name (concat date "-" title ".org")))
     (switch-to-buffer buffer-name)
     (org-mode)
-    (set-visited-file-name buffer-name)
+;;    (set-visited-file-name buffer-name)
     (insert "#+title: " title "\n")
     (insert "#+date: " date "\n")
     (insert "#+author: " user-full-name "\n\n")))
