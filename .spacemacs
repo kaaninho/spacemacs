@@ -711,20 +711,24 @@ you should place your code here."
         mu4e-view-show-addresses t)
 
   ;; Notifications
-  (setq mu4e-alert-set-default-style 'notifications)
-  ;; wrong?
-  (setq mu4e-enable-notifications t)
-  (setq mu4e-enable-mode-line t)
+  ;; vielleicht so?
+  (mu4e-alert-set-default-style 'notifications)
+  ;; wrong? wahrscheinlich. obiges richtig
+  ;; (setq mu4e-alert-set-default-style 'notifications)
+  ;; wrong? 
+  ;; (setq mu4e-enable-notifications t)
+  ;; (setq mu4e-enable-mode-line t)
   ;; needed? wrong?
   (add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
   ;; needed? wrong?
   (add-hook 'after-init-hook #'mu4e-alert-enable-mode-line-display)
-  ;; needed? wrong?
-  (with-eval-after-load 'mu4e-alert
-    (mu4e-alert-set-default-style 'notifications))
-  ;; needed?
-  (mu4e-alert-enable-notifications)
-  (mu4e-alert-enable-mode-line-display)
+  ;; needed? wrong? wahrscheinlich nicht
+  ;; (with-eval-after-load 'mu4e-alert
+  ;;   (mu4e-alert-set-default-style 'notifications))
+
+  ;; needed? wahrscheinlich nicht
+  ;; (mu4e-alert-enable-notifications)
+  ;; (mu4e-alert-enable-mode-line-display)
 
   ;; Bookmarks
   (setq mu4e-bookmarks
@@ -742,10 +746,6 @@ you should place your code here."
 
   ;; start mu4e
   (mu4e t)
-  ;;(mu4e-alert-enable-notifications)
-  ;;(mu4e-alert-enable-mode-line-display)
-  ;; ^  die zwei nach oben verschoben... ändert das was?
-
 
 
   ;;; ----------------------
