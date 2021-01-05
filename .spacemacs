@@ -739,9 +739,24 @@ you should place your code here."
   ;;; Bei Reply oder Zitat die Zeile anpassen, dass auch Datum/Uhrzeit angezeigt wird
   (setq message-citation-line-function 'message-insert-formatted-citation-line)
   (setq message-citation-line-format "On %Y-%m-%d at %R %Z, %f wrote:\n")
+
+  ;; Setze User-Mail-Adresse, um beim Antworten auf Mails die eigene Adresse
+  ;; nicht im CC zu haben
+  (setq mu4e-user-mail-address-list '("kaan.sahin@active-group.de"))
+
+  ;;; Format flowed für E-Mails
+  ;; format=flowed gesendete Nachrichten brechen optional nach X Zeichen um
+  ;; Das ist insbesondere für mobile Geräte, wo die standardmäßigen 72 Zeichen
+  ;; pro Zeile zu viel sind, sinnvoll, da sonst doppelt umgebrochen wird.
+
+  ;; format=flowed unterstützen nicht alle Programme. Deshalb benutze ich einfach
+  ;; harte Breaks. Ist auf mobilen Geräten nicht so schön, aber who cares. Dafuq
+  (setq use-hard-newlines nil)
+  (setq mu4e-compose-format-flowed nil)
+  (setq fill-flowed-encode-column 72)
+
   ;; start mu4e
   (mu4e t)
-
 
   ;;; ----------------------
 
