@@ -709,12 +709,11 @@ you should place your code here."
         smtpmail-smtp-user "sahin"
         smtpmail-local-domain "active-group.de"
         ;; um gesendete buffer zu killen
-        message-kill-buffer-on-exit t)
+        message-kill-buffer-on-exit t
 
-  ;; Flags nicht als Symbole
-  (setq mu4e-use-fancy-chars 'nil)
-
-  (setq mu4e-get-mail-command "offlineimap -o -q"
+        ;; Flags nicht als Symbole
+        mu4e-use-fancy-chars 'nil
+        mu4e-get-mail-command "offlineimap -o -q"
         mu4e-update-interval 200
         mu4e-view-show-images t
         mu4e-view-show-addresses t)
@@ -730,8 +729,7 @@ you should place your code here."
           ("maildir:/activemail/INBOX" "Active Group INBOX" ?a)
           ("maildir:/activemail/eBike-Manager" "eBike-Manager" ?e)
           ("maildir:/activemail/BIMwelt" "BIMsystems" ?b)
-          ("maildir:/activemail/Sent Messages" "Sent Messages" ?s)))
-
+          ("maildir:/activemail/\"Sent Messages\" " "Sent Messages" ?s)))
 
   ;; Mit `q` kann man mu4e ganz verlassen (erhält dann aber auch keine Mails mehr).
   ;; Deshalb `Q` um den Buffer zu wechseln. Der mu4e-Buffer verschwindet dann automatisch.
