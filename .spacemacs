@@ -71,7 +71,6 @@ This function should only modify configuration layer settings."
                       auto-completion-return-key-behavior 'nil
                       auto-completion-tab-key-behavior 'cycle)
 
-
      multiple-cursors
 
      emacs-lisp
@@ -99,7 +98,6 @@ This function should only modify configuration layer settings."
 
      ;; fancy pdf reader
      ;; pdf-tools
-
 
      themes-megapack
      )
@@ -541,7 +539,6 @@ you should place your code here."
   (desktop-save-mode)
   ;; (desktop-read)  ausführen, um den Inahlt beim Neustart angezeigt zu bekommen
 
-
   ;;; ORG EASY STRUCTURE TEMPLATE
   ;; To use org easy structure templates
   ;; (also `<s' für Code-Beispiel)
@@ -550,37 +547,35 @@ you should place your code here."
     ;; Fix, because currently broken, see: https://github.com/syl20bnr/spacemacs/issues/11798
   (setq org-structure-template-alist (cons '("n". "#+BEGIN_NOTES ? #+END_NOTES") (cdr org-structure-template-alist)))
 
-
   ;;; Automatic highlight symbol
   (spacemacs/toggle-automatic-symbol-highlight)
   (ahs-set-idle-interval 0.5)
 
-  ;; Auto-Completion
+  ;;; Auto-Completion
   (global-company-mode)
   (bind-key (kbd "C-<return>") 'company-complete)
 
-
-  ;; Disable Undo-tree-mode
+  ;;; Disable Undo-tree-mode
   (global-undo-tree-mode nil)
 
-  ;; Um markierte Region zu loeschen bei Tastatureingabe
+  ;;; Um markierte Region zu loeschen bei Tastatureingabe
   (delete-selection-mode 1)
 
-  ;; Paredit automatisch laden
+  ;;; Paredit automatisch laden
   (add-hook 'clojure-mode-hook 'paredit-mode)
   (add-hook 'clojurescript-mode-hook 'paredit-mode)
   (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 
-  ;; clj-refactor don't warn when using `cljr-find-usages`
+  ;;; clj-refactor don't warn when using `cljr-find-usages`
   (setq cljr-warn-on-eval nil)
 
-  ;; clj-kondo Clojure LINTER
+  ;;; clj-kondo Clojure LINTER
   ;; (use-package clojure-mode
   ;;   :ensure t
   ;;   :config
   ;;   (require 'flycheck-clj-kondo))
 
-  ;; So geht das Scrolling bei langen Zeilen hoffentlich schneller
+  ;;; So geht das Scrolling bei langen Zeilen hoffentlich schneller
   (setq-default bidi-display-reordering nil)
   (setq fast-but-imprecise-scrolling t)
 
@@ -588,7 +583,7 @@ you should place your code here."
   ;; open Todo file
   (bind-key (kbd "C-c f") (lambda () (interactive) (find-file "~/org/todos.org")))
 
-  ;; Org-capture-templates
+  ;;; Org-capture-templates
   (setq org-capture-templates
         `(("t" "Todo mit Datei-Link" entry (file+headline "todos.org" "Inbox")
            "* TODO %?\n %i %a" :prepend t)
@@ -605,15 +600,14 @@ you should place your code here."
   ;; Dadurch wird nach einem refile die Datei direkt gespeichert
   (advice-add 'org-refile :after 'org-save-all-org-buffers)
 
-  ;; Backup Files:
+  ;;; Backup Files:
   (load-file "~/.elisp-files/backup.el")
 
-  ;; Protokoll-Template
+  ;;; Protokoll-Template
   (load-file "~/.elisp-files/protokoll-template.el")
   (bind-key (kbd "C-x p") 'protocol-template)
 
   ;;; Key Bindings
-  ;; Other window
   (global-set-key [C-tab] 'other-window)
   (global-set-key [C-S-tab] (lambda () (interactive) (other-window -1)))
   (define-key undo-tree-map [remap undo] nil)
@@ -635,7 +629,7 @@ you should place your code here."
   (bind-key (kbd "M-*") "|")
   (bind-key (kbd "C-ö") 'join-line)
 
-  ;; Umlaute
+  ;;; Umlaute
   (defun insert-oe ()
     "insert ö"
     (interactive)
@@ -647,16 +641,16 @@ you should place your code here."
   (bind-key (kbd "C-M-ö") 'insert-oe)
   (bind-key (kbd "C-M-ä") 'insert-ae)
 
-  ;; Page Up and Down
+  ;;; Page Up and Down
   (bind-key (kbd "M-p") 'scroll-down-command)
   (bind-key (kbd "M-n") 'scroll-up-command)
 
-  ;; Timeclock Erweiterung
+  ;;; Timeclock Erweiterung
   (bind-key (kbd "C-x t i") 'timeclock-in)
   (bind-key (kbd "C-x t o") 'timeclock-out)
   (bind-key (kbd "C-x t c") 'timeclock-change)
 
-  ;; Für mehr Timeclock-Funktionalität
+  ;;; Für mehr Timeclock-Funktionalität
   (load-file "~/.elisp-files/kaan-timeclock.el")
   (bind-key (kbd "C-x t s") 'timeclock-sum-all-hours)
   (bind-key (kbd "C-x t t") 'timeclock-hours-worked-today)
@@ -669,17 +663,17 @@ you should place your code here."
   (load-file "~/.elisp-files/mikes-timeclock.el")
   (global-set-key (kbd "C-x t d") 'timeclock-provide-description)
 
-  ;; fast geschickter, eingebaut windmove
+  ;;; Ergänzung zu `other-window'
   (bind-key (kbd "C-c <left>")  'windmove-left)
   (bind-key (kbd "C-c <right>") 'windmove-right)
   (bind-key (kbd "C-c <up>")    'windmove-up)
   (bind-key (kbd "C-c <down>")  'windmove-down)
 
-  ;; For spelling use aspell instead of ispell
+  ;;; For spelling use aspell instead of ispell
   (setq ispell-program-name "aspell")
 
 
-  ;; Rechtschreibkorrektur mit Langtool https://github.com/mhayashi1120/Emacs-langtool
+  ;;; Rechtschreibkorrektur mit Langtool https://github.com/mhayashi1120/Emacs-langtool
   (setq langtool-language-tool-jar "~/langtool/LanguageTool-4.7/languagetool-commandline.jar")
   (require 'langtool)
   (bind-key (kbd "C-x l") 'langtool-check)
@@ -746,17 +740,16 @@ you should place your code here."
        (latex . t)
        (plantuml . t)))
     )
-  
+
   ;;; PlantUML
   (setq org-plantuml-jar-path
-        (expand-file-name "~/.nix-profile/lib/plantuml.jar"))
+        (expand-file-name "~/.nix-profile/lib/plantuml.jar")
 
-  (setq plantuml-jar-path org-plantuml-jar-path
+        plantuml-jar-path org-plantuml-jar-path
         plantuml-default-exec-mode 'jar
         plantuml-output-type "txt")
 
-
-  ;; Elixir settings
+  ;;; Elixir settings
   (add-hook 'elixir-mode-hook
             (lambda ()
               (add-hook 'before-save-hook #'lsp-format-buffer nil t)))
@@ -771,8 +764,6 @@ you should place your code here."
   ;;     "tt" 'exunit-verify-single
 
   ;;     "d" 'lsp-ui-doc-mode))
-
-
 
 
   ;; set region highlighting more visible (black)
