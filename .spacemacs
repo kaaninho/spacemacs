@@ -108,7 +108,6 @@ This function should only modify configuration layer settings."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
    '(
-     align-cljlet
      exunit
      langtool
      mu4e-alert)
