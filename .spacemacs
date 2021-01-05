@@ -599,11 +599,17 @@ you should place your code here."
   (setq org-default-notes-file "todos.org")
   (setq org-refile-targets '((org-agenda-files :maxlevel . 1)))
 
-  ;; org-reveal
-  (setq org-reveal-root "file:///home/kaan/tmp/reveal.js")
-
-  ;; Dadurch wird nach einem refile die Datei direkt gespeichert
+  ;;; Dadurch werden nach einem
+  ;;; - refile von capture
+  ;;; - finish von capture
+  ;;; - TODOstatus zu DONEstatus in org-agenda
+  ;;; die org-Dateien direkt gespeichert
   (advice-add 'org-refile :after 'org-save-all-org-buffers)
+  (advice-add 'org-capture-finalize :after 'org-save-all-org-buffers)
+  (advice-add 'org-agenda-todo :after 'org-save-all-org-buffers)
+
+  ;;; org-reveal
+  (setq org-reveal-root "file:///home/kaan/tmp/reveal.js")
 
   ;;; Backup Files:
   (load-file "~/.elisp-files/backup.el")
