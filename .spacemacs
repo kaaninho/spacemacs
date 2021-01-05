@@ -618,6 +618,10 @@ you should place your code here."
   (load-file "~/.elisp-files/protokoll-template.el")
   (bind-key (kbd "C-x p") 'protocol-template)
 
+  ;;; Record-Tipperleichterung
+  (load-file "~/.elisp-files/insert-define-record-type.el")
+  (bind-key (kbd "C-x C-r") 'insert-define-record-type)
+
   ;;; Key Bindings
   (global-set-key [C-tab] 'other-window)
   (global-set-key [C-S-tab] (lambda () (interactive) (other-window -1)))
