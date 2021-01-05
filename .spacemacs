@@ -522,8 +522,11 @@ you should place your code here."
   ;; Only `helm-flex' in this list breaks NS auto-complete in clojure
   (setq completion-styles '(basic partial-completion emacs22 helm-flex))
 
-  ;; Das hier setzen, falls command-history mal Duplikate zeigt
-  ;; (setq extended-command-history nil)
+  ;; Das hier setzen, falls command-history Duplikate zeigt
+  (setq  history-delete-duplicates t)
+  ;; Falls man die History begrenzen möchte in der Größe
+  (setq history-length 150)
+  ;; (setq extended-command-history nil)  ; hiermit manuell die ganze Liste löschen
 
   ;;; SCALA LSP
   ;; auto vervollständigung oder ähnliches wegen scala
