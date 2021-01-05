@@ -736,6 +736,9 @@ you should place your code here."
   (eval-after-load 'mu4e
     '(define-key mu4e-main-mode-map (kbd "Q") 'previous-buffer))
 
+  ;;; Bei Reply oder Zitat die Zeile anpassen, dass auch Datum/Uhrzeit angezeigt wird
+  (setq message-citation-line-function 'message-insert-formatted-citation-line)
+  (setq message-citation-line-format "On %Y-%m-%d at %R %Z, %f wrote:\n")
   ;; start mu4e
   (mu4e t)
 
