@@ -118,7 +118,8 @@ This function should only modify configuration layer settings."
    '(
      exunit
      langtool
-     mu4e-alert)
+     mu4e-alert
+     keyfreq)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
 
@@ -832,8 +833,20 @@ you should place your code here."
   ;;     "ta" 'exunit-verify
   ;;     "tk" 'exunit-rerun
   ;;     "tt" 'exunit-verify-single
-
   ;;     "d" 'lsp-ui-doc-mode))
+
+  ;;; Um Häufigkeit von Keybinding-Usage anzuzeigen
+  (require 'keyfreq)
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1)
+
+  (setq keyfreq-excluded-commands
+        '(self-insert-command
+          forward-char
+          backward-char
+          previous-line
+          next-line
+          ivy-next-line))
 
 
   ;; set region highlighting more visible (black)
