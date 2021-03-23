@@ -67,11 +67,14 @@ This function should only modify configuration layer settings."
      (mu4e :variables
            mu4e-installation-path "/usr/local/share/emacs/site-lisp/mu/mu4e/")
 
-     (helm :variables
-           helm-use-fuzzy 'always
-           ;; helm-M-x-fuzzy-match t
-           ;; helm-mode-fuzzy-match t
-           )
+     ;; (helm :variables
+     ;;       helm-use-fuzzy 'always
+     ;;       ;; helm-M-x-fuzzy-match t
+     ;;       ;; helm-mode-fuzzy-match t
+     ;;       )
+
+     ivy
+
      (auto-completion :variables
                       auto-completion-return-key-behavior 'nil
                       auto-completion-tab-key-behavior 'cycle)
@@ -525,7 +528,7 @@ you should place your code here."
 
   ;; FIX for helm fuzzy
   ;; Only `helm-flex' in this list breaks NS auto-complete in clojure
-  (setq completion-styles '(basic partial-completion emacs22 helm-flex))
+  ;; (setq completion-styles '(basic partial-completion emacs22 helm-flex))
 
   ;; Das hier setzen, falls command-history Duplikate zeigt
   (setq  history-delete-duplicates t)
