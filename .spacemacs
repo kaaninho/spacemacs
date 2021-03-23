@@ -32,7 +32,9 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     scala
+     erlang
+     fsharp
+     ;; scala
      ;; scala-lsp
      common-lisp
      php
@@ -40,7 +42,10 @@ This function should only modify configuration layer settings."
 
      (elixir :variables
              elixir-backend 'lsp
-             elixir-ls-path "~/.elixir-lsp/release")
+             elixir-ls-path "~/.elixir-lsp/release"
+             :init
+             (add-to-list 'exec-path "~/.elixir-lsp/release/language_server.sh"))
+
 
      ;; erlang
      ;; ocaml
@@ -783,8 +788,39 @@ you should place your code here."
   ;;; Elixir settings
   (add-hook 'elixir-mode-hook
             (lambda ()
-              (add-hook 'before-save-hook #'lsp-format-buffer nil t)))
+              (add-hook 'before-save-hook #'elixir-format t t)))
 
+
+  ;; documentation popup timeout / delay
+  (setq lsp-ui-doc-delay 2)
+
+  (with-eval-after-load 'elixir-mode
+    (spacemacs/declare-prefix-for-mode 'elixir-mode
+      "mt" "tests" "testing related functionality")
+    (spacemacs/set-leader-keys-for-major-mode 'elixir-mode
+      "ta" 'exunit-verify-all
+      "tb" 'exunit-verify
+      "tr" 'exunit-rerun
+      "tt" 'exunit-verify-single))
+
+  
+
+  (with-eval-after-load 'lsp-mode
+    (setq lsp-restart 'auto-restart)
+    (setq lsp-file-watch-threshold 25000)
+    (push "[/\\]docker/temp$" lsp-file-watch-ignored)
+    (push "temp$" lsp-file-watch-ignored))
+
+  ;; Pin the exunit window to the bottom.
+  ;; (push '("*exunit-compilation*"
+  ;;         :dedicated t
+  ;;         :position bottom
+  ;;         :stick t
+  ;;         :height 0.4
+  ;;         :noselect t)
+  ;;       popwin:special-display-config)
+
+  ;;; OLD Elixir settings with alchemist
   ;; (with-eval-after-load 'elixir-mode
   ;;   (spacemacs/declare-prefix-for-mode 'elixir-mode
   ;;     "mt" "tests" "testing related functionality")
