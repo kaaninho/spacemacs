@@ -528,7 +528,13 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
   ;; org-capture funktioniert nicht weil Variable nicht bekannt, deshalb setzen
-  (setq org-indent-indentation-per-level 2)
+  (setq org-indent-indentation-per-level 0)
+
+  ;; org-refile funktioniert nicht wegen
+  ;; "Invalid function: org-preserve-local-variables"
+  ;; Dann: lösche kompilierte Dateien und rekompiliere:
+  ;; `cd ~/.emacs.d && find . -name *.elc -print0 | xargs -0 rm`
+  ;; Danach `M-x spacemacs/recompile-elpa`
 
   ;; falls which-key mal langsam sein sollte, einfach
   ;; (setq which-key-replacement-alist nil)
