@@ -621,6 +621,29 @@ you should place your code here."
   (setq org-default-notes-file "todos.org")
   (setq org-refile-targets '((org-agenda-files :maxlevel . 1)))
 
+  ;;; org-notify um an Termine zu erinnern
+  (require 'org-notify)
+  (org-notify-add 'daily
+                  '(:time "5m" :period "2m" :duration 100
+                          :actions -notify)
+                  '(:time "5m" :period "2m" :duration 100
+                          :actions (-message -ding)))
+  (org-notify-start)
+
+  ;; I do not want to show the daily TODOs in agenda view
+  ;; see: https://orgmode.org/manual/Special-Agenda-Views.html
+  (defun my-skip-fn ()
+    "Skip daily"
+    (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+      (if (and (re-search-forward "notify" subtree-end t)
+               (re-search-forward "daily" subtree-end t))
+          subtree-end
+        nil)))
+
+  (setq org-agenda-skip-function-global
+        'my-skip-fn)
+
+
   ;;; Dadurch werden nach einem
   ;;; - refile von capture
   ;;; - finish von capture
