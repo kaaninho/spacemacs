@@ -576,10 +576,13 @@ you should place your code here."
 
   ;;; Automatic highlight symbol
   (spacemacs/toggle-automatic-symbol-highlight)
-  (ahs-set-idle-interval 0.5)
+
+  ;;; Magit keybinding
+  (bind-key (kbd "C-x g") 'magit)
 
   ;;; Auto-Completion
   (global-company-mode)
+  (setq company-idle-delay 0.5)
   (bind-key (kbd "C-<return>") 'company-complete)
 
   ;;; Disable Undo-tree-mode
@@ -688,6 +691,7 @@ you should place your code here."
   (bind-key (kbd "M-+") 'insert-backslash)
   (bind-key (kbd "M-*") "|")
   (bind-key (kbd "C-ö") 'join-line)
+  (bind-key (kbd "C-q") 'previous-buffer)
 
   ;;; Umlaute
   (defun insert-oe ()
