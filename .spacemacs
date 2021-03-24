@@ -809,6 +809,9 @@ you should place your code here."
   (setq mu4e-compose-format-flowed nil)
   (setq fill-flowed-encode-column 72)
 
+  ;; Falls eml Dateien drin sind die nicht gut lesbar sind (nicht öffnen kann)
+  ;;   (setq mu4e-view-use-gnus t)
+
   ;; start mu4e
   (mu4e t)
 
