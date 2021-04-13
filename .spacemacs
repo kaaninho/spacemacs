@@ -87,7 +87,8 @@ This function should only modify configuration layer settings."
      emacs-lisp
      git
      (org :variables
-          org-indent-mode t
+          org-indent-mode nil
+          org-edit-src-content-indentation 0 ; vielleicht überflüssig
           org-enable-reveal-js-support t
           org-hide-emphasis-markers nil
           org-bullets-mode t
@@ -576,6 +577,9 @@ you should place your code here."
 
     ;; Fix, because currently broken, see: https://github.com/syl20bnr/spacemacs/issues/11798
   (setq org-structure-template-alist (cons '("n". "#+BEGIN_NOTES ? #+END_NOTES") (cdr org-structure-template-alist)))
+
+  ;;; org-mode disable indentation after return
+  (add-hook 'org-mode-hook (lambda () (electric-indent-mode -1)))
 
   ;;; Automatic highlight symbol
   (spacemacs/toggle-automatic-symbol-highlight)
