@@ -925,6 +925,8 @@ you should place your code here."
           magit-previous-line
           ivy-previous-line))
 
+  ;;; Damit kill-buffer ohne Confirmation direkt den Buffer killt:
+  (global-set-key (kbd "C-x k") 'kill-this-buffer)
 
   ;; set region highlighting more visible (black)
   (custom-set-faces
