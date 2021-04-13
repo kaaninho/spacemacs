@@ -625,6 +625,9 @@ you should place your code here."
   ;; open Todo file
   (bind-key (kbd "C-c f") (lambda () (interactive) (find-file "~/org/todos.org")))
 
+  ;; This is somehow needed for storing a link from a message for capturing
+  (require 'org-mu4e)
+
   ;;; Org-capture-templates
   (setq org-capture-templates
         `(("t" "Todo mit Datei-Link" entry (file+headline "todos.org" "Inbox")
