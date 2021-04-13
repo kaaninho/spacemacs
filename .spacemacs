@@ -909,7 +909,21 @@ you should place your code here."
           backward-char
           previous-line
           next-line
-          ivy-next-line))
+          ivy-next-line
+          org-self-insert-command
+          lsp-ui-doc--handle-mouse-movement
+          ignore
+          mwheel-scroll
+          magit-next-line
+          ivy-backward-delete-char
+          delete-backward-char
+          org-delete-backward-char
+          delete-char
+          mouse-drag-region
+          new-line-and-indent
+          ivy-done
+          magit-previous-line
+          ivy-previous-line))
 
 
   ;; set region highlighting more visible (black)
