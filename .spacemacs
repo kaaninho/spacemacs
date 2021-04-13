@@ -801,9 +801,9 @@ you should place your code here."
           ("maildir:/activemail/\"Sent Messages\" " "Sent Messages" ?s)))
 
   ;; Mit `q` kann man mu4e ganz verlassen (erhält dann aber auch keine Mails mehr).
-  ;; Deshalb `Q` um den Buffer zu wechseln. Der mu4e-Buffer verschwindet dann automatisch.
+  ;; Deshalb überschreiben wir es mit `previous-buffer`.
   (eval-after-load 'mu4e
-    '(define-key mu4e-main-mode-map (kbd "Q") 'previous-buffer))
+    '(define-key mu4e-main-mode-map (kbd "q") 'previous-buffer))
 
   ;;; Bei Reply oder Zitat die Zeile anpassen, dass auch Datum/Uhrzeit angezeigt wird
   (setq message-citation-line-function 'message-insert-formatted-citation-line)
