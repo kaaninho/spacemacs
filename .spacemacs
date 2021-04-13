@@ -570,6 +570,11 @@ you should place your code here."
   (desktop-save-mode)
   ;; (desktop-read)  ausführen, um den Inahlt beim Neustart angezeigt zu bekommen
 
+  ;;; clean-buffer-list, kills all saved buffers, that were unused since min 3 days
+  ;; (clean-buffer-list)
+  ;;; midnight-mode: does clean-buffer-list once every day
+  ;; (midnight-mode)
+
   ;;; ORG EASY STRUCTURE TEMPLATE
   ;; To use org easy structure templates
   ;; (also `<s' für Code-Beispiel)
