@@ -86,19 +86,7 @@ This function should only modify configuration layer settings."
 
      emacs-lisp
      git
-     (org :variables
-          org-indent-mode nil
-          org-edit-src-content-indentation 0 ; vielleicht überflüssig
-          org-enable-reveal-js-support t
-          org-hide-emphasis-markers nil
-          org-bullets-mode t
-          org-bullets-bullet-list '("⚫" "◉" "◎" "○" "►" "◇")
-          org-emphasis-alist '(("*" bold)
-                               ("/" italic)
-                               ("_" underline)
-                               ("=" (:foreground "#EFCA08" :background "#555555"))
-                               ("~" org-verbatim verbatim)
-                               ("+" (:strike-through t))))
+     org
 
      (shell :variables
             shell-default-height 30
@@ -531,8 +519,24 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
-  ;; org-capture funktioniert nicht weil Variable nicht bekannt, deshalb setzen
-  (setq org-indent-indentation-per-level 0)
+  ;;; ORG-MODE-Einstellungen --------------------
+
+
+
+  (setq org-indent-mode t
+        org-edit-src-content-indentation 0 ; vielleicht überflüssig
+        ;; org-capture funktioniert nicht weil Variable nicht bekannt, deshalb setzen
+        org-indent-indentation-per-level 2
+        org-enable-reveal-js-support t
+        org-hide-emphasis-markers nil
+        org-bullets-mode t
+        org-bullets-bullet-list '("⚫" "◉" "◎" "○" "►" "◇")
+        org-emphasis-alist '(("*" bold)
+                             ("/" italic)
+                             ("_" underline)
+                             ("=" (:foreground "#EFCA08" :background "#555555"))
+                             ("~" org-verbatim verbatim)
+                             ("+" (:strike-through t))))
 
   ;; org-refile funktioniert nicht wegen
   ;; "Invalid function: org-preserve-local-variables"
