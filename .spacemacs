@@ -668,6 +668,7 @@ you should place your code here."
   (advice-add 'org-refile :after 'org-save-all-org-buffers)
   (advice-add 'org-capture-finalize :after 'org-save-all-org-buffers)
   (advice-add 'org-agenda-todo :after 'org-save-all-org-buffers)
+  (advice-add 'org-agenda-schedule :after (lambda (&rest args) (org-save-all-org-buffers)))
 
   ;;; org-reveal
   (setq org-reveal-root "file:///home/kaan/tmp/reveal.js")
