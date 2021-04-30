@@ -33,8 +33,6 @@ This function should only modify configuration layer settings."
    dotspacemacs-configuration-layers
    '(
 
-     command-log
-
      erlang
      fsharp
      ;; scala
@@ -689,9 +687,9 @@ you should place your code here."
   (global-set-key [C-tab] 'other-window)
   (global-set-key [C-S-tab] (lambda () (interactive) (other-window -1)))
   (define-key undo-tree-map [remap undo] nil)
+  (bind-key (kbd "C-z") 'undo)
   (bind-key (kbd "C-x C-y") 'yas-expand)
   (unbind-key (kbd "C-z") evil-emacs-state-map)
-  (bind-key (kbd "C-z") 'undo)
   (bind-key (kbd "C-#") "@")
   (bind-key (kbd "C-+") "~")
   (bind-key (kbd "ö") "[")
