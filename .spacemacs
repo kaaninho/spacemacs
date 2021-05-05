@@ -926,8 +926,8 @@ you should place your code here."
 
   ;;; Set Custom face
   ;; set region highlighting more visible (black)
-  (set-face-attribute 'region nil :background "#FD971F")
-  (set-face-attribute 'ivy-current-match nil :background "#850000")
+  (set-face-attribute 'region nil :background "#FD971F" :inherit 'highlight)
+  (set-face-attribute 'ivy-current-match nil :background "#FD971F" :inherit 'highlight)
 
   ;;; Tramp
   ;; damit man Dateien über SSH öffnen kann
