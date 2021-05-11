@@ -922,7 +922,7 @@ you should place your code here."
           ivy-previous-line))
 
   ;;; Damit kill-buffer ohne Confirmation direkt den Buffer killt:
-  (global-set-key (kbd "C-x k") 'kill-this-buffer)
+  (global-set-key (kbd "C-x k") 'kill-current-buffer)
 
   ;;; Set Custom face
   ;; set region highlighting more visible (black)
