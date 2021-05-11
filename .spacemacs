@@ -925,7 +925,7 @@ you should place your code here."
   (global-set-key (kbd "C-x k") 'kill-current-buffer)
 
   ;;; Set Custom face
-  ;; set region highlighting more visible (black)
+  ;; set region highlighting more visible (orange)
   (set-face-attribute 'region nil :background "#FD971F" :inherit 'highlight)
   (set-face-attribute 'ivy-current-match nil :background "#FD971F" :inherit 'highlight)
 
