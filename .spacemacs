@@ -827,7 +827,9 @@ you should place your code here."
   (setq fill-flowed-encode-column 72)
 
   ;; Falls eml Dateien drin sind die nicht gut lesbar sind (nicht öffnen kann)
-  (setq mu4e-view-use-gnus t)
+  ;; (macht aber irgendwie das Herunterladen von Anhängen kaputt, deshalb
+  ;; erstmal standardmäßig deaktiviert)
+  ;; (setq mu4e-view-use-gnus t)
 
   ;; start mu4e
   (mu4e t)
