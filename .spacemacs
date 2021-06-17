@@ -569,9 +569,10 @@ you should place your code here."
   ;; (setq company-lsp-async t)
 
   ;;; DESKTOP SAVE MODE
-  ;; Um den Bufferzustand beim beenden von Emacs beizubehalten
-  (desktop-save-mode)
-  ;; (desktop-read)  ausführen, um den Inahlt beim Neustart angezeigt zu bekommen
+  ;; Um den Bufferzustand beim beenden von Emacs beizubehalten // benutze es
+  ;; gerade nicht mehr
+  ;; (desktop-save-mode)
+  ;; (desktop-read) ausführen, um den Inahlt beim Neustart angezeigt zu bekommen
 
   ;;; clean-buffer-list, kills all saved buffers, that were unused since min 3 days
   ;; (clean-buffer-list)
