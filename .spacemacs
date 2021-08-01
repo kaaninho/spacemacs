@@ -587,7 +587,8 @@ you should place your code here."
   (require 'org-tempo)
 
     ;; Fix, because currently broken, see: https://github.com/syl20bnr/spacemacs/issues/11798
-  (setq org-structure-template-alist (cons '("n". "#+BEGIN_NOTES ? #+END_NOTES") (cdr org-structure-template-alist)))
+  ;; Maybe not needed anymore, commented out, if still works, can delete
+  ;; (setq org-structure-template-alist (cons '("n". "#+BEGIN_NOTES ? #+END_NOTES") (cdr org-structure-template-alist)))
 
   ;;; org-mode disable indentation after return
   (add-hook 'org-mode-hook (lambda () (electric-indent-mode -1)))
