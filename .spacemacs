@@ -44,6 +44,7 @@ This function should only modify configuration layer settings."
      (elixir :variables
              elixir-backend 'lsp
              elixir-ls-path "~/.elixir-lsp/release"
+             lsp-elixir-fetch-deps nil
              :init
              (add-to-list 'exec-path "~/.elixir-lsp/release/language_server.sh"))
 
@@ -858,6 +859,15 @@ you should place your code here."
         plantuml-output-type "txt")
 
   ;;; Elixir settings
+
+  ;; Wenn lsp mal nicht geht (und auch z. B. linter), dann das hier ausführen:
+  ;; rm -r deps _build .elixir_ls && mix deps.get
+  ;; ggf. auch mix deps.compile
+
+  ;; das hier setzen, damit emacs die deps nicht automatisch fetcht (gab bei mir
+  ;; probleme bzgl mix.lock)
+  ;; lsp-elixir-fetch-deps nil
+
   (add-hook 'elixir-mode-hook
             (lambda ()
               (add-hook 'before-save-hook #'elixir-format t t)))
