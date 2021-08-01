@@ -807,7 +807,6 @@ you should place your code here."
         `(("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
           ("maildir:/activemail/INBOX" "Active Group INBOX" ?a)
           ("maildir:/activemail/eBike-Manager" "eBike-Manager" ?e)
-          ("maildir:/activemail/BIMwelt" "BIMsystems" ?b)
           ("maildir:/activemail/\"Sent Messages\" " "Sent Messages" ?s)))
 
   ;; Mit `q` kann man mu4e ganz verlassen (erhält dann aber auch keine Mails mehr).
