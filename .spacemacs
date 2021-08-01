@@ -669,6 +669,7 @@ you should place your code here."
   ;;; - refile von capture
   ;;; - finish von capture
   ;;; - TODOstatus zu DONEstatus in org-agenda
+  ;;; - reschedule in agenda view
   ;;; die org-Dateien direkt gespeichert
   (advice-add 'org-refile :after 'org-save-all-org-buffers)
   (advice-add 'org-capture-finalize :after 'org-save-all-org-buffers)
