@@ -754,6 +754,9 @@ you should place your code here."
   (bind-key (kbd "C-c <up>")    'windmove-up)
   (bind-key (kbd "C-c <down>")  'windmove-down)
 
+  ;; other-window wird so oft verwendet von mir, mache Abkürzung:
+  (bind-key (kbd "C-o") 'other-window)
+
   ;;; For spelling use aspell instead of ispell
   (setq ispell-program-name "aspell")
 
