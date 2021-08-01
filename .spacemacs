@@ -536,7 +536,8 @@ you should place your code here."
                              ("_" underline)
                              ("=" (:foreground "#EFCA08" :background "#555555"))
                              ("~" org-verbatim verbatim)
-                             ("+" (:strike-through t))))
+                             ("+" (:strike-through t)))
+        org-enable-reveal-js-support t)
 
   ;; org-refile funktioniert nicht wegen
   ;; "Invalid function: org-preserve-local-variables"
