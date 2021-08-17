@@ -794,27 +794,29 @@ nil)))
 
 ;; Variables
 (setq mu4e-sent-folder "/activemail/Sent Messages"
-;; mu4e-sent-messages-behavior 'delete ;; Unsure how this should be configured
-mu4e-trash-folder "/activemail/Trash"
-mu4e-drafts-folder "/activemail/drafts"
-user-mail-address "kaan.sahin@active-group.de"
-smtpmail-default-smtp-server "smtp.active-group.de"
-smtpmail-smtp-server "smtp.active-group.de"
-smtpmail-auth-credentials (expand-file-name "~/.authinfo.gpg")
-smtpmail-smtp-service 587
-mu4e-compose-signature
-"\nKaan Sahin\nActive Group GmbH\nkaan.sahin@active-group.de\n+49 7071 70896 80\n\nHechinger Straße 12/1, 72072 Tübingen\nRegistergericht: Amtsgericht Stuttgart, HRB 224404\nGeschäftsführer: Dr. Michael Sperber\n"
-smtpmail-smtp-user "sahin"
-smtpmail-local-domain "active-group.de"
-;; um gesendete buffer zu killen
-message-kill-buffer-on-exit t
+      ;; mu4e-sent-messages-behavior 'delete ;; Unsure how this should be configured
+      mu4e-trash-folder "/activemail/Trash"
+      mu4e-drafts-folder "/activemail/drafts"
+      user-mail-address "kaan.sahin@active-group.de"
+      smtpmail-default-smtp-server "smtp.active-group.de"
+      smtpmail-smtp-server "smtp.active-group.de"
+      smtpmail-auth-credentials (expand-file-name "~/.authinfo.gpg")
+      smtpmail-smtp-service 587
+      mu4e-compose-signature
+      "\nKaan Sahin\nActive Group GmbH\nkaan.sahin@active-group.de\n+49 7071 70896 80\n\nHechinger Straße 12/1, 72072 Tübingen\nRegistergericht: Amtsgericht Stuttgart, HRB 224404\nGeschäftsführer: Dr. Michael Sperber\n"
+      smtpmail-smtp-user "sahin"
+      smtpmail-local-domain "active-group.de"
+      ;; um gesendete buffer zu killen
+      message-kill-buffer-on-exit t
 
-;; Flags nicht als Symbole
-mu4e-use-fancy-chars 'nil
-mu4e-get-mail-command "offlineimap -o -q"
-mu4e-update-interval 200
-mu4e-view-show-images t
-mu4e-view-show-addresses t)
+      message-send-mail-function 'smtpmail-send-it
+
+      ;; Flags nicht als Symbole
+      mu4e-use-fancy-chars 'nil
+      mu4e-get-mail-command "offlineimap -o -q"
+      mu4e-update-interval 200
+      mu4e-view-show-images t
+      mu4e-view-show-addresses t)
 
 ;; Notifications
 (mu4e-alert-set-default-style 'notifications)
@@ -858,7 +860,7 @@ mu4e-view-show-addresses t)
 ;; (setq mu4e-view-use-gnus t)
 
 ;; start mu4e
-;; (mu4e t)
+(mu4e t)
 
 ;;; ----------------------
 
