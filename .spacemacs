@@ -867,15 +867,14 @@ nil)))
 
 ;;; org-babel language support
 (with-eval-after-load 'org
-(org-babel-do-load-languages
-'org-babel-load-languages
-'((clojure . t)
-(emacs-lisp . t)
-(haskell . t)
-(python . t)
-(latex . t)
-(plantuml . t)))
-)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((clojure . t)
+     (emacs-lisp . t)
+     (haskell . t)
+     (python . t)
+     (latex . t)
+     (plantuml . t))))
 
 ;;; PlantUML
 (setq org-plantuml-jar-path
@@ -943,26 +942,26 @@ plantuml-output-type "txt")
 (keyfreq-autosave-mode 1)
 
 (setq keyfreq-excluded-commands
-'(self-insert-command
-  forward-char
-  backward-char
-  previous-line
-  next-line
-  ivy-next-line
-  org-self-insert-command
-  lsp-ui-doc--handle-mouse-movement
-  ignore
-  mwheel-scroll
-  magit-next-line
-  ivy-backward-delete-char
-  delete-backward-char
-  org-delete-backward-char
-  delete-char
-  mouse-drag-region
-  new-line-and-indent
-  ivy-done
-  magit-previous-line
-  ivy-previous-line))
+      '(self-insert-command
+        forward-char
+        backward-char
+        previous-line
+        next-line
+        ivy-next-line
+        org-self-insert-command
+        lsp-ui-doc--handle-mouse-movement
+        ignore
+        mwheel-scroll
+        magit-next-line
+        ivy-backward-delete-char
+        delete-backward-char
+        org-delete-backward-char
+        delete-char
+        mouse-drag-region
+        new-line-and-indent
+        ivy-done
+        magit-previous-line
+        ivy-previous-line))
 
 ;;; Damit kill-buffer ohne Confirmation direkt den Buffer killt:
 (global-set-key (kbd "C-x k") 'kill-current-buffer)
