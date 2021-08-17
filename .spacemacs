@@ -112,7 +112,8 @@ so-long
 exunit
 langtool
 mu4e-alert
-keyfreq)
+keyfreq
+envrc)
 ;; A list of packages that cannot be updated.
 dotspacemacs-frozen-packages '()
 
@@ -965,6 +966,10 @@ plantuml-output-type "txt")
 
 ;;; Damit kill-buffer ohne Confirmation direkt den Buffer killt:
 (global-set-key (kbd "C-x k") 'kill-current-buffer)
+
+;; direnv envrc
+(envrc-global-mode)
+
 
 ;;; Set Custom face
 ;; set region highlighting more visible (orange)
