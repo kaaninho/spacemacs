@@ -611,8 +611,12 @@ org-enable-reveal-js-support t)
 ;;; Automatic highlight symbol
 (spacemacs/toggle-automatic-symbol-highlight)
 
-;;; Magit keybinding
+;;; Magit
+;; keybinding
 (bind-key (kbd "C-x g") 'magit)
+
+;; show more detailed diff
+(setq magit-diff-refine-hunk t)
 
 ;;; Auto-Completion
 (global-company-mode)
