@@ -36,8 +36,6 @@ This function should only modify configuration layer settings."
      nixos
      erlang
      fsharp
-     ;; scala
-     ;; scala-lsp
      common-lisp
      php
      haskell
@@ -49,6 +47,9 @@ This function should only modify configuration layer settings."
              :init
              (add-to-list 'exec-path "~/.elixir-lsp/release/language_server.sh"))
 
+     docker
+
+     lsp
 
      ;; erlang
      ;; ocaml
@@ -60,8 +61,9 @@ This function should only modify configuration layer settings."
      javascript
      (clojure :variables
               clojure-enable-clj-refactor t
-              clojure-enable-linters 'clj-kondo)
-     ;; clojure-lint
+              clojure-backend 'cider
+              ;; clojure-enable-linters 'clj-kondo
+              )
      csv
      html
 
@@ -113,7 +115,8 @@ exunit
 langtool
 mu4e-alert
 keyfreq
-envrc)
+envrc
+org-re-reveal)
 ;; A list of packages that cannot be updated.
 dotspacemacs-frozen-packages '()
 
@@ -544,8 +547,7 @@ org-emphasis-alist '(("*" bold)
 		     ("_" underline)
 		     ("=" (:foreground "#EFCA08" :background "#555555"))
 		     ("~" org-verbatim verbatim)
-		     ("+" (:strike-through t)))
-org-enable-reveal-js-support t)
+		     ("+" (:strike-through t))))
 
 ;; org-refile funktioniert nicht wegen
 ;; "Invalid function: org-preserve-local-variables"
@@ -631,6 +633,7 @@ org-enable-reveal-js-support t)
 
 ;;; Paredit automatisch laden
 (add-hook 'clojure-mode-hook 'paredit-mode)
+(add-hook 'clojure-mode-hook (lambda () (bind-key (kbd "M-t") 'transpose-sexps 'clojure-mode-map 'clojure-mode?)))
 (add-hook 'clojurescript-mode-hook 'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 
@@ -642,6 +645,8 @@ org-enable-reveal-js-support t)
 ;;   :ensure t
 ;;   :config
 ;;   (require 'flycheck-clj-kondo))
+
+;;; bind key M-t to transpose-sexpr when in clojure-mode
 
 ;;; So geht das Scrolling bei langen Zeilen hoffentlich schneller
 (setq-default bidi-display-reordering nil)
@@ -696,6 +701,12 @@ nil)))
 (advice-add 'org-capture-finalize :after 'org-save-all-org-buffers)
 (advice-add 'org-agenda-todo :after 'org-save-all-org-buffers)
 (advice-add 'org-agenda-schedule :after (lambda (&rest args) (org-save-all-org-buffers)))
+
+
+;;; Todo Faces
+(setq org-todo-keyword-faces
+      '(("TODO" . org-warning) ("To-Watch" . "yellow")
+        ("Watched" . (:foreground "#FD971F" :weight bold))))
 
 ;;; org-reveal
 (setq org-reveal-root "file:///home/kaan/tmp/reveal.js")
@@ -798,7 +809,7 @@ nil)))
 (bind-key (kbd "M-m M-m") 'mu4e)
 
 ;; Variables
-(setq mu4e-sent-folder "/activemail/Sent Messages"
+(setq mu4e-sent-folder "/activemail/Sent"
       ;; mu4e-sent-messages-behavior 'delete ;; Unsure how this should be configured
       mu4e-trash-folder "/activemail/Trash"
       mu4e-drafts-folder "/activemail/drafts"
@@ -819,7 +830,7 @@ nil)))
       ;; Flags nicht als Symbole
       mu4e-use-fancy-chars 'nil
       mu4e-get-mail-command "offlineimap -o -q"
-      mu4e-update-interval 200
+      mu4e-update-interval 3600
       mu4e-view-show-images t
       mu4e-view-show-addresses t)
 
@@ -881,12 +892,10 @@ nil)))
      (plantuml . t))))
 
 ;;; PlantUML
-(setq org-plantuml-jar-path
-(expand-file-name "~/.nix-profile/lib/plantuml.jar")
-
-plantuml-jar-path org-plantuml-jar-path
-plantuml-default-exec-mode 'jar
-plantuml-output-type "txt")
+(setq plantuml-jar-path (expand-file-name "~/bin/plantuml.jar")
+      org-plantuml-jar-path plantuml-jar-path
+      plantuml-default-exec-mode 'jar
+      plantuml-output-type "svg")
 
 ;;; Elixir settings
 
@@ -973,6 +982,36 @@ plantuml-output-type "txt")
 ;; direnv envrc
 (envrc-global-mode)
 
+;;; Scala
+
+(use-package scala-mode
+  :ensure t
+  :defer t
+  :interpreter
+  ("scala" . scala-mode))
+
+(use-package sbt-mode
+  :commands sbt-start sbt-command
+  :ensure t
+  :defer t
+  :config
+  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+  ;; allows using SPACE when in the minibuffer
+  (substitute-key-definition
+   'minibuffer-complete-word
+   'self-insert-command
+   minibuffer-local-completion-map)
+  ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+  (setq sbt:program-options '("-Dsbt.supershell=false")))
+
+
+;; Add metals backend for lsp-mode
+(use-package lsp-metals
+  :hook (scala-mode . lsp)
+  :defer t
+  :ensure t)
+
+;;; END Scala
 
 ;;; Set Custom face
 ;; set region highlighting more visible (orange)
@@ -986,3 +1025,31 @@ plantuml-output-type "txt")
 
 
 
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("e616cf64af0eb72ca7665ed1cc440366b9ffccf221ea640f097783cc93ef67d4" "96784946c36d69089c7e42f30e130bfade8cb91e9dac6c6a0bd4a99f5c68d7b1" "4661ed7cf4fcf6ee5e467122aa5d8a69c0e00e6bce46da1b33bcb40f1101127d" default))
+ '(evil-want-Y-yank-to-eol nil)
+ '(package-selected-packages
+   '(dockerfile-mode docker tablist docker-tramp sbt-mode mvn maven-test-mode lsp-metals scala-mode lsp-java dap-mode bui groovy-mode groovy-imports pcache ox-reveal nix-mode company-nixos-options nixos-options envrc inheritenv org-re-reveal direnv string-edit quickrun phpcbf php-auto-yasnippets orgit-forge org-rich-yank org-contrib org npm-mode multi-line shut-up lsp-origami origami lsp-latex ivy-avy forge yaml ghub closql emacsql-sqlite emacsql treepy evil-collection annalist drag-stuff dired-quick-sort company-math math-symbol-lists zenburn-theme zen-and-art-theme yasnippet-snippets yaml-mode xterm-color ws-butler writeroom-mode winum white-sand-theme which-key wgrep web-mode web-beautify vterm volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired toxi-theme toc-org terminal-here tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit symon symbol-overlay sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection sql-indent spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smex smeargle slime-company slim-mode shell-pop seti-theme scss-mode sass-mode reverse-theme restart-emacs request rebecca-theme railscasts-theme racket-mode purple-haze-theme pug-mode professional-theme prettier-js popwin plantuml-mode planet-theme phpunit php-extras phoenix-dark-pink-theme phoenix-dark-mono-theme pcre2el password-generator paradox overseer orgit organic-green-theme org-superstar org-present org-pomodoro org-mime org-download org-cliplink org-brain open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme ob-elixir nodejs-repl noctilux-theme naquadah-theme nameless mustang-theme multi-term mu4e-maildirs-extension mu4e-alert move-text monokai-theme monochrome-theme molokai-theme moe-theme modus-vivendi-theme modus-operandi-theme mmm-mode minimal-theme material-theme markdown-toc majapahit-theme magit-svn magit-gitflow madhat2r-theme lush-theme lsp-ui lsp-treemacs lsp-ivy lsp-haskell lorem-ipsum livid-mode link-hint light-soap-theme langtool keyfreq kaolin-themes json-navigator json-mode js2-refactor js-doc jbeans-theme jazz-theme ivy-yasnippet ivy-xref ivy-purpose ivy-hydra ir-black-theme inkpot-theme indent-guide impatient-mode hybrid-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-make hc-zenburn-theme haskell-snippets gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md geben gandalf-theme fuzzy fsharp-mode font-lock+ flycheck-pos-tip flycheck-package flycheck-haskell flycheck-elsa flycheck-credo flycheck-clj-kondo flx-ido flatui-theme flatland-theme farmhouse-theme fancy-battery eziam-theme eyebrowse exunit expand-region exotica-theme evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu espresso-theme eshell-z eshell-prompt-extras esh-help erlang emr emmet-mode elixir-mode elisp-slime-nav editorconfig dumb-jump drupal-mode dracula-theme dotenv-mode doom-themes django-theme diminish devdocs define-word darktooth-theme darkokai-theme darkmine-theme darkburn-theme dante dakrone-theme cyberpunk-theme csv-mode counsel-projectile counsel-css company-web company-reftex company-phpactor company-php company-ghci company-cabal company-auctex common-lisp-snippets column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized cmm-mode clues-theme clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu chocolate-theme cherry-blossom-theme centered-cursor-mode busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-compile auctex-latexmk attrap apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme ace-link ac-ispell))
+ '(safe-local-variable-values
+   '((haskell-stylish-on-save . t)
+     (haskell-mode-stylish-haskell-path . "ormolu")
+     (javascript-backend . tide)
+     (javascript-backend . tern)
+     (javascript-backend . lsp))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+)
