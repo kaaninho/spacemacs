@@ -833,7 +833,7 @@ nil)))
 `(("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
   ("maildir:/activemail/INBOX" "Active Group INBOX" ?a)
   ("maildir:/activemail/eBike-Manager" "eBike-Manager" ?e)
-  ("maildir:/activemail/\"Sent Messages\" " "Sent Messages" ?s)))
+  ("maildir:/activemail/Sent" "Sent" ?s)))
 
 ;; Mit `q` kann man mu4e ganz verlassen (erhält dann aber auch keine Mails mehr).
 ;; Deshalb überschreiben wir es mit `previous-buffer`.
