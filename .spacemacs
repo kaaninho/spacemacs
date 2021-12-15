@@ -1022,6 +1022,17 @@ nil)))
 
 ;;; END Scala
 
+;;; Nested Project 
+;; with bottom-up first, we always get dir with .hg / .git
+;; even if true project directory is sitting underneath
+(setq projectile-project-root-files-functions
+      '(projectile-root-local
+        projectile-root-top-down
+        projectile-root-top-down-recurring
+        projectile-root-bottom-up))
+
+;;; END Nested Project
+
 ;;; Set Custom face
 ;; set region highlighting more visible (orange)
 (set-face-attribute 'region nil :background "#FD971F" :inherit 'highlight)
