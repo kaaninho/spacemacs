@@ -641,6 +641,14 @@ org-emphasis-alist '(("*" bold)
 (add-hook 'clojurescript-mode-hook 'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 
+;;; Clojure add define-record-type Tipperleichterung
+;;; Record-Tipperleichterung
+(add-hook 'clojure-mode-hook
+          (lambda ()
+            (progn
+              (load-file "~/.elisp-files/insert-define-record-type.el")
+              (bind-key (kbd "C-x C-r") 'insert-define-record-type))))
+
 ;;; clj-refactor don't warn when using `cljr-find-usages`
 (setq cljr-warn-on-eval nil)
 
@@ -721,12 +729,6 @@ nil)))
 ;;; Protokoll-Template
 (load-file "~/.elisp-files/protokoll-template.el")
 (bind-key (kbd "C-x p") 'protocol-template)
-
-
-
-;;; Record-Tipperleichterung
-(load-file "~/.elisp-files/insert-define-record-type.el")
-(bind-key (kbd "C-x C-r") 'insert-define-record-type)
 
 ;; Immediately insert back tic
 (bind-key (kbd "C-<dead-acute>") "`")
