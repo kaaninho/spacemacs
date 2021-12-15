@@ -116,7 +116,11 @@ langtool
 mu4e-alert
 keyfreq
 envrc
-org-re-reveal)
+org-re-reveal
+;;; The following three bc of `use-package' below
+scala-mode
+sbt-mode
+lsp-metals)
 ;; A list of packages that cannot be updated.
 dotspacemacs-frozen-packages '()
 
@@ -569,7 +573,7 @@ org-emphasis-alist '(("*" bold)
 (setq history-length 150)
 ;; (setq extended-command-history nil)  ; hiermit manuell die ganze Liste löschen
 
-;;; SCALA LSP
+;;; SCALA LSP (OLD)
 ;; auto vervollständigung oder ähnliches wegen scala
 ;; (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
 
@@ -988,7 +992,12 @@ nil)))
   :ensure t
   :defer t
   :interpreter
-  ("scala" . scala-mode))
+  ("scala" . scala-mode)
+  :hook (before-save-hook . lsp-format-buffer))
+
+(add-hook 'scala-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook #'lsp-format-buffer)))
 
 (use-package sbt-mode
   :commands sbt-start sbt-command
