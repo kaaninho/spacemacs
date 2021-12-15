@@ -835,6 +835,8 @@ nil)))
 
       ;; Flags nicht als Symbole
       mu4e-use-fancy-chars 'nil
+      ;; "-o" wichtig, da sonst das Programm nicht beendet wird und von mu4e
+      ;; nicht -wieder aufgerufen werden kann
       mu4e-get-mail-command "offlineimap -o -q"
       mu4e-update-interval 3600
       mu4e-view-show-images t
