@@ -804,10 +804,10 @@ nil)))
 
 
 ;;; Rechtschreibkorrektur mit Langtool https://github.com/mhayashi1120/Emacs-langtool
-(setq langtool-language-tool-jar "~/langtool/LanguageTool-4.7/languagetool-commandline.jar")
-(require 'langtool)
-(bind-key (kbd "C-x l") 'langtool-check)
-(bind-key (kbd "C-x j") 'langtool-check-done)
+;; (setq langtool-language-tool-jar "~/langtool/LanguageTool-4.7/languagetool-commandline.jar")
+;; (require 'langtool)
+;; (bind-key (kbd "C-x l") 'langtool-check)
+;; (bind-key (kbd "C-x j") 'langtool-check-done)
 
 ;;; Mail mu4e --------------
 
